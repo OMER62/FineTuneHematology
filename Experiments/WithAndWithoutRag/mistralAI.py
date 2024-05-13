@@ -60,7 +60,7 @@ service_context = ServiceContext.from_defaults(llm=llm, embed_model=embed_model,
 
 
 response_synthesizer = get_response_synthesizer(llm=llm, service_context=service_context)
-df = pd.read_excel("../Hematology-pdf/Harrisons Hematology and Oncology 2ed_questionsPage743.xlsx")
+df = pd.read_excel("../../Hematology-pdf/Harrisons Hematology and Oncology 2ed_questionsPage743.xlsx")
 
 query_engine = RetrieverQueryEngine(
         retriever=retriever,

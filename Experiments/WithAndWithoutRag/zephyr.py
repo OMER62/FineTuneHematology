@@ -9,7 +9,8 @@ from huggingface_hub import login
 # access_token = os.environ.get("LOGIN_TOKEN")
 from llama_index.core.llms import LLM
 
-login(token="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")
+access_token = os.environ.get("LOGIN_TOKEN")
+login(token=access_token)
 
 from llama_index.embeddings.openai import OpenAIEmbedding
 from llama_index.core import VectorStoreIndex, get_response_synthesizer, PromptTemplate
@@ -26,10 +27,10 @@ from llama_index.core import Settings
 
 
 # get the Hematology-index created by gpt-3.5 embeddings
-pc = Pinecone(api_key="e907ba23-c248-44b1-8a41-7ac1ab90cfc1")
+pc = Pinecone(api_key=os.environ.get("PINECONE_API_KEY"))
 pinecone_index = pc.Index(name="hematology-index")
 vector_store = PineconeVectorStore(pinecone_index=pinecone_index)
-embed_model = OpenAIEmbedding(model="text-embedding-ada-002", api_key="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")
+embed_model = OpenAIEmbedding(model="text-embedding-ada-002", api_key=os.environ.get("OPENAI_API_KEY"))
 index = VectorStoreIndex.from_vector_store(vector_store=vector_store, embed_model=embed_model)
 
 # configure a vector retriever

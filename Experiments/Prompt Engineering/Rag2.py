@@ -1,12 +1,12 @@
 from llama_index.core.response_synthesizers import TreeSummarize
-from llama_index.postprocessor.cohere_rerank import CohereRerank
 import pandas as pd
 from dotenv import load_dotenv
 import os
+import datetime
 
 from llama_index.embeddings.openai import OpenAIEmbedding
 from llama_index.llms.openai import OpenAI
-from llama_index.core import VectorStoreIndex, PromptTemplate, PromptHelper, BasePromptTemplate
+from llama_index.core import VectorStoreIndex, PromptTemplate
 from llama_index.vector_stores.pinecone import PineconeVectorStore
 from pinecone import Pinecone
 from llama_index.core.query_pipeline import QueryPipeline
@@ -21,7 +21,7 @@ index = VectorStoreIndex.from_vector_store(vector_store=vector_store, embed_mode
 
 # Define the LLM model
 llm = OpenAI(model="gpt-3.5-turbo", temperature=1, api_key=os.environ.get("OPENAI_API_KEY"))
-retriever = index.as_retriever(similarity_top_k=10)
+retriever = index.as_retriever(similarity_top_k=5)
 
 prompt_str = "As a hematology specialist, please respond to the following scenario by returning only the letter corresponding to the correct answer from the given options: {topic}"
 
@@ -47,20 +47,22 @@ df = pd.read_excel(
 
 
 def run_rag_process(p, df):
-    questions = df['Questions']
     responses = []
 
-    for question in questions:
-        answer = p.run(topic=question)
+    for row in df[:20].itertuples():
+        question = row.Questions
+        answer = row.Answers
+        ragAnswer = p.run(topic=question)
         # Store the result
         responses.append({
             "Question": question,
-            "Answer": answer
+            "Answer": answer,
+            "AnswerWithRag": ragAnswer
         })
 
-    return responses
+    return pd.DataFrame(responses)
 
-
-df2 = run_rag_process(p, df)
-print(df2)
-
+timestamp = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
+experimentResults = run_rag_process(p, df)
+experimentResults.to_csv(f"Experiment_{timestamp}.csv")
+print(experimentResults)

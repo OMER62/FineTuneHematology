@@ -1,0 +1,9 @@
+Different Prompts:
+
+prompt_str = "You are a student taking a hematology exam. For the following scenario, analyze the given options and return only the letter corresponding to the most appropriate answer: {topic}"
+
+prompt_str = "As a hematology specialist, please respond to the following scenario by returning only the letter corresponding to the correct answer from the given options: {topic}"
+
+prompt_str = "As a hematology specialist, please answer the next multiple-choice question: {topic}"
+
+prompt_str = "As a student to hematology in a test specialist, please respond to the following scenario by providing the most appropriate answer, and return just the letter from the given options: {topic}"

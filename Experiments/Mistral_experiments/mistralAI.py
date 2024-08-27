@@ -5,7 +5,7 @@ import time
 from huggingface_hub import login
 
 # access HuggingFace to get access to the LLMs
-access_token = os.environ.get("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")
+access_token = os.environ.get("LOGIN_TOKEN")
 login(token=access_token)
 
 from llama_index.embeddings.openai import OpenAIEmbedding

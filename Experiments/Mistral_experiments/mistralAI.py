@@ -24,7 +24,7 @@ from llama_index.core import Settings
 
 
 # get the Hematology-index created by gpt-3.5 embeddings
-pc = Pinecone(api_key="5cd25b86-9354-4271-9b46-7308e6772433")
+pc = Pinecone(api_key="PINECONE_API")
 pinecone_index = pc.Index(name="hematology-index")
 vector_store = PineconeVectorStore(pinecone_index=pinecone_index)
 class SentenceTransformerEmbedModel:
